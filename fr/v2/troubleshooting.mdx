@@ -1,0 +1,213 @@
+---
+title: "Dépannage - v2.0"
+description: "Problèmes courants et solutions pour Salsa as a Service v2.0"
+---
+
+# Guide de dépannage - v2.0
+
+Ce guide vous aide à résoudre les problèmes courants avec Salsa as a Service v2.0, y compris les prévisions IA et les problèmes de capteurs IoT.
+
+## Diagnostics rapides
+
+<Steps>
+  <Step title="Vérifier l'état du système">
+    Visitez [status.salsaasaservice.com](https://status.salsaasaservice.com) pour voir les problèmes en cours.
+  </Step>
+  <Step title="Vérifier la connexion Internet">
+    Assurez une connexion Internet stable. v2.0 fonctionne hors ligne mais nécessite une connexion périodique.
+  </Step>
+  <Step title="Vider le cache">
+    Videz le cache du navigateur ou les données de l'application mobile.
+  </Step>
+  <Step title="Vérifier les capteurs IoT">
+    Si vous utilisez des capteurs, vérifiez qu'ils sont en ligne et connectés.
+  </Step>
+</Steps>
+
+## Connexion et authentification
+
+<AccordionGroup>
+  <Accordion title="Impossible de se connecter">
+    **Problème** : Impossible de se connecter à votre compte
+
+    1. **Vérifier les identifiants** — Vérifiez votre adresse e-mail et mot de passe. Assurez-vous que le verrouillage majuscule est désactivé.
+    2. **Réinitialiser le mot de passe** — Utilisez le lien "Mot de passe oublié" sur la page de connexion.
+    3. **Vérifier l'e-mail** — Recherchez les e-mails de vérification dans votre dossier spam.
+    4. **Contacter le support** — Si le problème persiste, contactez le support avec votre adresse e-mail.
+
+    <Warning>
+    **Note de sécurité** : Ne partagez jamais votre mot de passe. Notre équipe de support ne vous demandera jamais votre mot de passe.
+    </Warning>
+  </Accordion>
+  <Accordion title="Problèmes d'authentification à deux facteurs">
+    **Problème** : Problèmes avec les codes 2FA ou la configuration
+
+    1. **Code non fonctionnel** : Assurez-vous que l'heure de votre appareil est synchronisée
+    2. **Appareil perdu** : Utilisez les codes de secours ou contactez le support
+    3. **Problèmes d'application** : Essayez une autre application d'authentification (Google Authenticator, Authy)
+
+    <Tip>Si vous utilisez SSO, assurez-vous que votre administrateur IT a provisionné votre compte dans le fournisseur d'identité.</Tip>
+  </Accordion>
+</AccordionGroup>
+
+## Prévisions IA
+
+<Note>Ces problèmes sont spécifiques aux fonctionnalités IA de v2.0.</Note>
+
+<AccordionGroup>
+  <Accordion title="Prévisions inexactes">
+    **Problème** : Les prévisions IA ne semblent pas précises
+
+    1. **Vérifier les données historiques** — Assurez-vous d'avoir au moins 90 jours de données historiques importées.
+    2. **Vérifier les sources de données** — Confirmez que toutes les sources (POS, réservations) sont connectées.
+    3. **Période d'apprentissage** — L'IA nécessite 2-4 semaines pour s'entraîner. La précision s'améliore avec le temps.
+    4. **Facteurs externes** — Vérifiez si des événements inhabituels (vacances, météo) affectent les prédictions.
+
+    <Tip>L'IA atteint une précision de 70-80% avec 90 jours de données et s'améliore à 95%+ après 6 mois.</Tip>
+  </Accordion>
+  <Accordion title="Prévisions non générées">
+    **Problème** : Aucune donnée de prévision n'apparaît dans le tableau de bord
+
+    1. **Vérifier l'activation** — Assurez-vous que la prévision est activée dans **Fonctionnalités IA > Prévision de demande**.
+    2. **Exigences de données** — Vous avez besoin d'au moins 30 jours de données historiques.
+    3. **Temps de traitement** — La première prévision prend jusqu'à 24 heures.
+    4. **Contacter le support IA** — Pour les problèmes persistants : ai-support@salsaasaservice.com
+  </Accordion>
+</AccordionGroup>
+
+## Capteurs IoT
+
+<Note>Ces problèmes sont spécifiques aux fonctionnalités IoT de v2.0.</Note>
+
+<AccordionGroup>
+  <Accordion title="Capteur hors ligne">
+    **Problème** : Le capteur IoT n'envoie pas de données
+
+    <Tabs>
+      <Tab title="Vérifications de base">
+        1. Vérifiez la batterie du capteur
+        2. Assurez-vous que le capteur est à portée du réseau
+        3. Redémarrez le capteur
+        4. Vérifiez l'état du réseau WiFi/Bluetooth
+      </Tab>
+      <Tab title="Reconnexion">
+        1. Ouvrez l'application mobile
+        2. Allez dans **Paramètres > Capteurs IoT**
+        3. Trouvez le capteur hors ligne
+        4. Appuyez sur "Reconnecter"
+        5. Suivez les instructions de couplage
+      </Tab>
+      <Tab title="Recalibration">
+        Si le capteur est en ligne mais les lectures sont incorrectes :
+        1. Accédez aux paramètres du capteur
+        2. Sélectionnez "Recalibrer"
+        3. Suivez la procédure de calibration guidée
+        4. Testez avec une lecture de référence
+      </Tab>
+    </Tabs>
+  </Accordion>
+  <Accordion title="Lectures de capteur erronées">
+    **Problème** : Le capteur envoie des données mais elles semblent incorrectes
+
+    1. **Recalibrer le capteur** — Exécutez une routine de calibration
+    2. **Vérifier le placement** — Assurez-vous que le capteur est correctement positionné
+    3. **Vérifier les interférences** — Éloignez des sources de chaleur ou d'humidité
+    4. **Remplacer la batterie** — Une batterie faible peut causer des lectures inexactes
+
+    <Warning>Si un capteur de température affiche des lectures en dehors des plages de sécurité alimentaire, suspendez la production et vérifiez manuellement.</Warning>
+  </Accordion>
+</AccordionGroup>
+
+## Synchronisation des données
+
+<AccordionGroup>
+  <Accordion title="Problèmes d'intégration POS">
+    **Problème** : Les données POS ne se synchronisent pas avec v2.0
+
+    <Tabs>
+      <Tab title="Square">
+        v2.0 utilise l'API Square v2. Si vous aviez v1.0 :
+        1. Déconnectez l'ancienne intégration
+        2. Reconnectez avec la nouvelle intégration v2.0
+        3. Autorisez les nouvelles permissions
+      </Tab>
+      <Tab title="Toast">
+        v2.0 nécessite l'API Toast v2 :
+        1. Vérifiez que vous utilisez Toast API v2
+        2. Mettez à jour vos identifiants API
+        3. Retestez la connexion
+      </Tab>
+      <Tab title="Synchronisation temps réel">
+        v2.0 offre une synchronisation en temps réel. Si elle ne fonctionne pas :
+        1. Vérifiez que les webhooks sont configurés
+        2. Testez la livraison des webhooks
+        3. Vérifiez les journaux de synchronisation
+      </Tab>
+    </Tabs>
+  </Accordion>
+</AccordionGroup>
+
+## API GraphQL
+
+<AccordionGroup>
+  <Accordion title="Erreurs de requête GraphQL">
+    **Problème** : Les requêtes GraphQL échouent ou retournent des erreurs
+
+    **Erreurs courantes :**
+
+    1. **Erreur d'authentification** — Vérifiez le token Bearer dans les headers
+    2. **Champs invalides** — Utilisez l'introspection pour vérifier les champs disponibles
+    3. **Limite de profondeur** — Les requêtes sont limitées à 10 niveaux de profondeur
+    4. **Limite de taux** — Respectez les limites de taux GraphQL
+
+    <Tip>Utilisez l'explorateur GraphQL interactif sur `https://api.salsaasaservice.com/graphql/explorer` pour tester vos requêtes.</Tip>
+  </Accordion>
+</AccordionGroup>
+
+## Performance
+
+<AccordionGroup>
+  <Accordion title="Chargement lent du tableau de bord">
+    **Problème** : Le tableau de bord v2.0 charge lentement
+
+    1. **Vérifier la connexion** — v2.0 nécessite une connexion stable. Testez votre vitesse Internet.
+    2. **Réduire les widgets** — Si vous avez beaucoup de widgets, envisagez d'en désactiver certains.
+    3. **Vider le cache** — Videz le cache du navigateur pour forcer un rechargement.
+    4. **Synchronisation hors ligne** — Si hors ligne, attendez que l'application synchronise avec le serveur.
+  </Accordion>
+</AccordionGroup>
+
+## Obtenir de l'aide
+
+### Ressources v2.0
+
+<CardGroup cols={2}>
+  <Card title="Base de connaissances" icon="book" href="https://help.salsaasaservice.com">
+    Documentation complète pour v2.0.
+  </Card>
+  <Card title="Forum communautaire" icon="users" href="https://community.salsaasaservice.com">
+    Obtenez de l'aide d'autres utilisateurs v2.0.
+  </Card>
+</CardGroup>
+
+### Contacter le support
+
+**Canaux de support v2.0 :**
+
+- 🤖 **Assistant IA** : Disponible dans l'application 24/7 (nouveau)
+- 📧 **E-mail** : support@salsaasaservice.com
+- 💬 **Chat en direct** : 24/7 dans votre tableau de bord (nouveau)
+- 📞 **Téléphone** : 1-800-SALSA-V2 (heures étendues pour v2.0)
+
+<Note>
+**Support amélioré v2.0** : Les clients v2.0 bénéficient de temps de réponse plus rapides et d'accès à l'assistant IA.
+</Note>
+
+### Support spécialisé
+
+Pour les problèmes spécifiques à v2.0 :
+
+- **Problèmes IA** : ai-support@salsaasaservice.com
+- **Problèmes IoT** : iot-support@salsaasaservice.com
+- **Problèmes GraphQL** : api-support@salsaasaservice.com
+- **Problèmes d'intégration** : integrations@salsaasaservice.com

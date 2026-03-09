@@ -1,0 +1,326 @@
+---
+title: "Référence API - v2.0"
+description: "Documentation API complète pour v2.0 avec support GraphQL"
+---
+
+# API Salsa as a Service v2.0
+
+L'API v2.0 ajoute le support GraphQL, webhooks améliorés et nouveaux endpoints de prévision IA.
+
+## URL de base
+
+```
+https://api.salsaasaservice.com/v2
+```
+
+<Info>
+**Nouveau dans v2.0** : Endpoint GraphQL disponible sur `https://api.salsaasaservice.com/graphql`
+</Info>
+
+## Authentification
+
+Toutes les requêtes API nécessitent une authentification avec votre clé API.
+
+### En-tête d'authentification
+
+<CodeGroup>
+```bash cURL
+curl -X GET https://api.salsaasaservice.com/v2/ingredients \
+  -H "Authorization: Bearer VOTRE_CLE_API"
+```
+
+```python Python
+import requests
+
+headers = {"Authorization": "Bearer VOTRE_CLE_API"}
+response = requests.get(
+    "https://api.salsaasaservice.com/v2/ingredients",
+    headers=headers
+)
+```
+
+```javascript JavaScript
+const response = await fetch(
+    "https://api.salsaasaservice.com/v2/ingredients",
+    { headers: { "Authorization": "Bearer VOTRE_CLE_API" } }
+);
+```
+</CodeGroup>
+
+<Warning>
+**Changement v2.0** : Les clés API v1.0 ne fonctionnent pas avec v2.0. Générez une nouvelle clé depuis **Paramètres > Développeur > API v2.0**.
+</Warning>
+
+## Limites de taux
+
+- **Plan Starter** : 10 000 requêtes par heure (augmenté depuis v1.0)
+- **Plan Professionnel** : 100 000 requêtes par heure
+- **Plan Entreprise** : Illimité
+
+## API GraphQL (Nouveau dans v2.0)
+
+### Endpoint GraphQL
+
+```
+https://api.salsaasaservice.com/graphql
+```
+
+### Exemple de requête
+
+```graphql
+query GetProductionForecast {
+  forecast(location: "loc_123", days: 7) {
+    date
+    recipes {
+      id
+      name
+      predictedDemand {
+        quantity
+        unit
+        confidence
+      }
+    }
+  }
+}
+```
+
+### Abonnements en temps réel
+
+<Note>
+**Nouveau dans v2.0** : Abonnements WebSocket pour mises à jour en direct.
+</Note>
+
+```graphql
+subscription OnQualityAlert {
+  qualityAlert(location: "loc_123") {
+    id
+    severity
+    sensorId
+    message
+    timestamp
+  }
+}
+```
+
+### Explorer GraphQL interactif
+
+Explorez le schéma GraphQL et testez les requêtes :
+
+```
+https://api.salsaasaservice.com/graphql/explorer
+```
+
+## API REST
+
+L'API REST reste disponible pour compatibilité.
+
+### Endpoints principaux
+
+<CardGroup cols={2}>
+  <Card title="Gestion d'inventaire" icon="warehouse" href="#previsions-ia">
+    Gérez ingrédients, stock et fraîcheur.
+  </Card>
+  <Card title="Prévisions IA" icon="brain" href="#previsions-ia">
+    Accédez aux prévisions de demande alimentées par IA.
+  </Card>
+  <Card title="Capteurs IoT" icon="satellite-dish" href="#capteurs-iot">
+    Gérez capteurs et lectures.
+  </Card>
+  <Card title="Production" icon="industry" href="#webhooks-v2">
+    Suivez lots de production et qualité.
+  </Card>
+</CardGroup>
+
+## Prévisions IA (Nouveau dans v2.0)
+
+### Obtenir les prévisions de demande
+
+<CodeGroup>
+```bash cURL
+curl -X GET "https://api.salsaasaservice.com/v2/ai/forecast?location=loc_123&days=7" \
+  -H "Authorization: Bearer VOTRE_CLE_API"
+```
+
+```python Python
+response = requests.get(
+    "https://api.salsaasaservice.com/v2/ai/forecast",
+    headers={"Authorization": "Bearer VOTRE_CLE_API"},
+    params={"location": "loc_123", "days": 7}
+)
+```
+
+```javascript JavaScript
+const response = await fetch(
+    "https://api.salsaasaservice.com/v2/ai/forecast?location=loc_123&days=7",
+    { headers: { "Authorization": "Bearer VOTRE_CLE_API" } }
+);
+```
+</CodeGroup>
+
+**Réponse :**
+
+```json
+{
+  "forecast_period": {
+    "start_date": "2024-01-20",
+    "end_date": "2024-01-27",
+    "days": 7
+  },
+  "predictions": [
+    {
+      "date": "2024-01-20",
+      "recipe_id": "rec_456",
+      "recipe_name": "Salsa maison",
+      "predicted_demand": {
+        "quantity": 12.5,
+        "unit": "gallons",
+        "confidence_interval": [11.2, 13.8],
+        "confidence_level": 0.95
+      },
+      "factors": {
+        "day_of_week": "Vendredi (+20%)",
+        "weather": "Ensoleillé (+5%)",
+        "events": ["Concert local (+10%)"]
+      }
+    }
+  ],
+  "model_accuracy": {
+    "mape": 5.2,
+    "last_updated": "2024-01-19T08:00:00Z"
+  }
+}
+```
+
+## Capteurs IoT (Nouveau dans v2.0)
+
+### Obtenir tous les capteurs
+
+<CodeGroup>
+```bash cURL
+curl -X GET "https://api.salsaasaservice.com/v2/iot/sensors?location=loc_123" \
+  -H "Authorization: Bearer VOTRE_CLE_API"
+```
+
+```python Python
+response = requests.get(
+    "https://api.salsaasaservice.com/v2/iot/sensors",
+    headers={"Authorization": "Bearer VOTRE_CLE_API"},
+    params={"location": "loc_123"}
+)
+```
+
+```javascript JavaScript
+const response = await fetch(
+    "https://api.salsaasaservice.com/v2/iot/sensors?location=loc_123",
+    { headers: { "Authorization": "Bearer VOTRE_CLE_API" } }
+);
+```
+</CodeGroup>
+
+**Réponse :**
+
+```json
+{
+  "sensors": [
+    {
+      "id": "sensor_001",
+      "name": "Capteur de température - Réfrigérateur 1",
+      "type": "temperature",
+      "location": "loc_123",
+      "status": "online",
+      "last_reading": {
+        "value": 3.5,
+        "unit": "celsius",
+        "timestamp": "2024-01-20T10:30:00Z",
+        "quality": "good"
+      },
+      "battery_level": 85
+    }
+  ]
+}
+```
+
+### Configurer les alertes de capteur
+
+```json
+{
+  "alert_type": "threshold",
+  "conditions": {
+    "min_value": 2.0,
+    "max_value": 4.0,
+    "unit": "celsius"
+  },
+  "notification_channels": ["email", "sms", "slack"],
+  "severity": "high"
+}
+```
+
+## Webhooks v2 (Amélioré)
+
+<Note>
+**Nouveau dans v2.0** : Système de webhooks amélioré avec livraison garantie, filtrage d'événements, vérification de signature et suivi de statut.
+</Note>
+
+### Événements disponibles
+
+- `forecast.updated` — Prévisions IA mises à jour
+- `sensor.reading` — Nouvelle lecture de capteur
+- `sensor.alert` — Alerte de capteur déclenchée
+- `production.batch_completed` — Lot de production terminé
+- `inventory.low_stock` — Stock faible détecté
+- `quality.alert` — Problème de qualité détecté
+
+### Configurer un webhook
+
+```json
+{
+  "url": "https://votre-app.com/webhooks/salsa",
+  "events": [
+    "forecast.updated",
+    "sensor.alert",
+    "production.batch_completed"
+  ],
+  "secret": "votre_secret_webhook",
+  "active": true
+}
+```
+
+## SDKs et bibliothèques
+
+<CardGroup cols={3}>
+  <Card title="JavaScript/Node.js" icon="js" href="https://github.com/salsaasaservice/salsa-js-v2">
+    SDK v2.0 avec support GraphQL et abonnements.
+  </Card>
+  <Card title="Python" icon="python" href="https://github.com/salsaasaservice/salsa-python-v2">
+    SDK Python v2.0 avec support IA et IoT.
+  </Card>
+  <Card title="PHP" icon="php" href="https://github.com/salsaasaservice/salsa-php-v2">
+    SDK PHP v2.0 pour applications web.
+  </Card>
+</CardGroup>
+
+## Environnement Sandbox
+
+Testez vos intégrations dans un environnement sûr :
+
+**URL Sandbox :**
+```
+https://api-sandbox.salsaasaservice.com/v2
+```
+
+<Warning>
+**Données Sandbox** : L'environnement sandbox utilise des données de test et n'affecte pas votre compte de production.
+</Warning>
+
+## Support
+
+Besoin d'aide avec l'API v2.0 ?
+
+- 📧 **E-mail** : api-support@salsaasaservice.com
+- 📚 **Documentation** : Documentation complète GraphQL et REST
+- 💬 **Discord développeur** : Rejoignez notre communauté
+- 🎥 **Tutoriels** : Tutoriels d'intégration vidéo
+
+<Note>
+**Support API amélioré** : Les clients v2.0 reçoivent un support API prioritaire et accès à nos ingénieurs API.
+</Note>

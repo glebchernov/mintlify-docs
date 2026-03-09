@@ -1,0 +1,94 @@
+---
+title: "Design Decisions"
+description: "How and why I structured the navigation this way"
+sidebarTitle: "Design Decisions"
+icon: "lightbulb"
+---
+
+# design decisions
+
+hi, i'm gleb. this page is where i explain how i approached restructuring these docs. i documented my full thinking process in obsidian while working through this — you can [download the vault here]() and there's also an interactive [cosma knowledge graph]() of the whole process if you're into that sort of thing.
+
+grab a coffee, this won't take long.
+
+## who actually uses these docs?
+
+before touching any config i mapped out who'd be navigating this. four years of support taught me: if you design for the content instead of the user, you get a beautiful sidebar that nobody can find anything in.
+
+| who | what they want | where they start |
+|-----|---------------|-----------------|
+| new evaluator | understand the product, check pricing | index → pricing |
+| developer | get integrated fast | getting-started → api-reference |
+| v1 user eyeing v2 | what changed, is it worth it | changelog → advanced-usage |
+| existing v2 user | fix something | troubleshooting → api-reference |
+| french speaker | any of the above, in french | language switcher |
+
+these five journeys shaped everything below.
+
+## version strategy
+
+i had three options. spent a morning coffee thinking through them.
+
+<AccordionGroup>
+  <Accordion title="option A: native versions (my pick)">
+    mintlify has a built-in `versions` dropdown. each version gets its own complete nav tree. v2 is default, v1 is one click away. when v3 ships — add one entry, done.
+
+    this is what the feature was literally designed for. it felt obvious once i found it in the docs.
+  </Accordion>
+  <Accordion title="option B: tabs (considered, nah)">
+    tabs for "v1 Docs" and "v2 Docs" would work technically. but tabs are better for conceptual splits (guides vs API reference), not for versioning. plus it eats the tab bar for something that already has a dedicated UI pattern.
+  </Accordion>
+  <Accordion title="option C: separate sidebar groups (nope)">
+    just listing v1 and v2 as groups in one sidebar. forces everyone to scroll past an entire version they don't care about. doesn't scale. rejected.
+  </Accordion>
+</AccordionGroup>
+
+## language strategy
+
+mintlify supports a native `languages` array — each language gets its own nav and a switcher dropdown. i configured `en` as default and `fr` as secondary with translated group names:
+
+- "Get Started" → "Commencer"
+- "Core Features" → "Fonctionnalités"
+- "Resources" → "Ressources"
+
+<Tip>
+adding spanish later = one new language entry + a set of `es/` files. no restructuring needed.
+</Tip>
+
+## sidebar grouping
+
+i organized by user intent, not alphabetically. the flow follows how people actually learn a product:
+
+<Steps>
+  <Step title="Get Started">
+    landing page + setup guide. where everyone begins.
+  </Step>
+  <Step title="Core Features">
+    inventory, quality, analytics. grouped so you can browse features without jumping around.
+  </Step>
+  <Step title="Integrations & API">
+    these two sit together because the people reading one are always reading the other.
+  </Step>
+  <Step title="Advanced (v2 only)">
+    AI forecasting, IoT, enterprise stuff. doesn't exist in v1, so it just disappears from the v1 sidebar.
+  </Step>
+  <Step title="Resources">
+    pricing, troubleshooting, changelog. reference material — nobody discovers these by browsing top to bottom.
+  </Step>
+</Steps>
+
+## tradeoffs
+
+**API reference in its own tab?** some docs do this. felt over-engineered for this size — and it separates the API from integrations context, which hurts developers who need both.
+
+**pricing higher in the nav?** most people checking pricing come from the marketing site, not from browsing docs. keeping it in resources felt more honest.
+
+## scalability
+
+| what happens | what changes |
+|-------------|-------------|
+| v3 ships | one version entry. v1/v2 untouched. |
+| spanish added | one language entry + `es/` files. |
+| new feature page | one line in a group's pages array. |
+
+grows by addition, not reorganization. that's the whole point.

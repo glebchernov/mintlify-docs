@@ -1,0 +1,102 @@
+---
+title: "Component Choices"
+description: "Why I chose specific Mintlify components for specific content"
+sidebarTitle: "Component Choices"
+icon: "puzzle-piece"
+---
+
+# component choices
+
+the readme says "quality over quantity — thoughtful component usage beats using everything available." couldn't agree more. i picked components the way i'd recommend them to a customer: does it make the content clearer? if not, skip it.
+
+i used six component types across the v2 files:
+
+<CardGroup cols={3}>
+  <Card title="CodeGroup" icon="code">
+    API Reference
+  </Card>
+  <Card title="Steps" icon="list-ol">
+    Getting Started
+  </Card>
+  <Card title="Tabs" icon="table-columns">
+    Pricing
+  </Card>
+  <Card title="Accordions" icon="layer-group">
+    Troubleshooting
+  </Card>
+  <Card title="Cards" icon="grid-2">
+    Index / Landing
+  </Card>
+  <Card title="Callouts" icon="message-exclamation">
+    Everywhere
+  </Card>
+</CardGroup>
+
+## the breakdown
+
+### CodeGroup → api-reference
+
+**before:** single-language code blocks. python devs had to mentally translate curl examples.
+
+**after:** `<CodeGroup>` with cURL, Python, and JavaScript tabs on every main endpoint. also added an `<Info>` callout for the new GraphQL endpoint — v1 upgraders need to notice it.
+
+**why:** this is literally what CodeGroup was made for. the tabs also sync across the page — pick python once and every block switches.
+
+### Steps → getting-started
+
+**before:** plain numbered list with scattered blockquotes.
+
+**after:** `<Steps>` component with titled steps and nested `<Tip>` / `<Note>` callouts inside each step.
+
+**why:** turns a wall of text into a guided checklist. new users scanning the page can see the full journey (5 steps) and know where they are. from my onboarding redesign experience at readymag — visual progress matters more than people think.
+
+### Tabs → pricing
+
+**before:** three tiers stacked vertically. had to scroll past all of Starter to see Professional.
+
+**after:** `<Tabs>` — Starter, Professional, Enterprise. one plan at a time.
+
+**why:** you can see all three plan names in the tab bar at a glance, then click into the one you care about. kept the overview cards above the tabs as a quick summary.
+
+### Accordions → troubleshooting
+
+**before:** every issue expanded on the page. login problems? scroll past sensor diagnostics first.
+
+**after:** `<AccordionGroup>` with collapsible sections. `<Warning>` for data-loss stuff, `<Tip>` for quick fixes.
+
+**why:** from my support experience — most users have one specific issue. accordions let them scan titles and expand only what they need. the best troubleshooting page is one that prevents a ticket from being filed.
+
+### Cards → index
+
+**before:** features listed as text paragraphs.
+
+**after:** `<CardGroup>` with three cards (Inventory, Quality, Analytics) — each with an icon and a direct link.
+
+**why:** gives new visitors clear visual entry points. click the thing you care about, skip the rest.
+
+### Callouts → everywhere
+
+**before:** bare blockquotes (`> **Note:**`) that look identical to regular quoted text.
+
+**after:** proper `<Note>`, `<Tip>`, `<Warning>` components across all enhanced files.
+
+**why:** a `<Warning>` with a yellow icon communicates urgency in a way that a bold markdown line never will. small change, big cumulative effect.
+
+## french v2
+
+same component patterns applied for consistency:
+- **getting-started** → `<Steps>` with french titles
+- **api-reference** → `<CodeGroup>` (code is code, copies directly)
+- **troubleshooting** → `<AccordionGroup>` with french titles
+- everything else → replaced blockquote callouts with proper components
+
+a french user should have the same structural experience. the components are the same; only the words change.
+
+## what i skipped
+
+| component | why not |
+|-----------|---------|
+| `RequestExample` / `ResponseExample` | great for two-column API layouts but felt heavy here. CodeGroup was enough. |
+| `Frame` | no images to wrap in the files i edited. |
+| `Tooltip` | cool feature, minimal value without a glossary. |
+| custom HTML/CSS | the existing branding already looks good. didn't want to risk clashing with the theme for marginal gain. |
