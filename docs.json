@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Salsa as a Service",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#E53E3E",
+    "light": "#FC8181",
+    "dark": "#9B2C2C"
   },
   "favicon": "/favicon.svg",
   "logo": {
